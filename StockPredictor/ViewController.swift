@@ -87,7 +87,7 @@ class ViewController: UIViewController {
     var errorflag=true;
     var epochnumber = 0;
     
-    var weights_0 = [0.656345,0.432734,0.243162,0.163723]
+    var weights_0 = [0.7426,0.432734,0.243162,0.163723]
     var adweights_0: [Double] = []
     
     var weights_1 = [0.656381,0.432734,0.243162,0.163723]
@@ -99,7 +99,7 @@ class ViewController: UIViewController {
     var weights_3 = [0.656356,0.432734,0.243162,0.163723]
     var adweights_3: [Double] = []
     
-    var weights_4 = [0.656324,0.432734,0.243162,0.163723]
+    var weights_4 = [0.34578,0.432734,0.243162,0.23451]
     var adweights_4: [Double] = []
     
     var weightshidden = [0.656324,0.432734,0.243162,0.163723,0.42803]
@@ -113,7 +113,7 @@ class ViewController: UIViewController {
     
     var i = [Neuron?](repeating: nil,count:4 )
     var h = [Neuron?](repeating: nil,count:5)
-    var output = Neuron()
+    var output = Neuron(info: 0.0)
        
     
     
@@ -129,12 +129,21 @@ class ViewController: UIViewController {
          print("someInts is of type [Int] with \(i.count) items.")
         print("targetresult =", targetresult)
         
-        i[0]?.info = 113.29
-        i[1]?.info = 115.00;
-        i[2]?.info = 112.49;
-        i[3]?.info = 113.30;
+       
+        i[0] = Neuron(info: 113.29)
+        i[1] = Neuron(info: 115)
+        i[2] = Neuron(info: 112.49)
+        i[3] = Neuron(info: 113.30)
         
-        print("i[3] = ",i[3]?.info)
+        h[0] = Neuron(info: 0)
+        h[1] = Neuron(info: 0)
+        h[2] = Neuron(info: 0)
+        h[3] = Neuron(info: 0)
+        h[4] = Neuron(info: 0)
+        
+        print("i[0] = ", i[0]!.info)
+        i[0]!.info = 1195
+        print("i[0] = ", i[0]!.info)
         
         for j in 0 ..< 4
         {
@@ -192,9 +201,9 @@ class ViewController: UIViewController {
             
             for x in 0 ..< 5
             {
-                //print(h[3]?.info,"exc bad ins")
+               
                 
-                outh[x] = 1/( 1 + pow(M_E,(-1*(h[x]?.info)!)));
+                outh[x] = 1/( 1 + pow(M_E,(-1*(h[x]!.info))));
             }
             
             
@@ -213,9 +222,10 @@ class ViewController: UIViewController {
                 h[i]?.info = 0.0;
             }
             
-            if(error > 0.00011 )
+            if(error >  0.00000001 )
             {
-                epochnumber += 1;
+                epochnumber += 1
+                print("epoch = ", epochnumber)
                 errorflag = true;
                 
                 adweightshidden = adjustingweightsh(weightshidden,outh: outh);

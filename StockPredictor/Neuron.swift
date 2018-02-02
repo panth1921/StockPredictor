@@ -18,9 +18,10 @@ open class Neuron {
     
     var list:[Neuron] = [Neuron]()
     
-    init()
+    init(info: Double)
     {
-        next = nil
+       
+        self.info = info
         
     }
     
