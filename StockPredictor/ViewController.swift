@@ -268,7 +268,11 @@ class ViewController: UIViewController {
             for y in 0 ..< weights.count
             {
                 
-                adweights[y] = weights[y] - (0.2 * outnoroutoneminusout * (outh[z]) * (1 - outh[z]) * (weightshidden[z]) * (i[y]?.norinput));
+               var result1 = outnoroutoneminusout * (outh[z])
+               var result2 = (1 - outh[z]) * (weightshidden[z])
+               
+                
+                adweights[y] = weights[y] - (0.2 * (i[y]?.norinput)!);
             }
         }
         
