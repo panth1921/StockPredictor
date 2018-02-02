@@ -102,7 +102,7 @@ class ViewController: UIViewController {
     var weights_4 = [0.656324,0.432734,0.243162,0.163723]
     var adweights_4: [Double] = []
     
-    var weightshidden = [0.656324,0.432734,0.243162,0.163723]
+    var weightshidden = [0.656324,0.432734,0.243162,0.163723,0.42803]
     var adweightshidden: [Double] = []
     
     var neth = [Double](repeating: 0,count: 5 )
@@ -127,12 +127,14 @@ class ViewController: UIViewController {
         print(closingprice,"backpropagate1")
         print("hiii1")
          print("someInts is of type [Int] with \(i.count) items.")
-        print(targetresult)
+        print("targetresult =", targetresult)
         
         i[0]?.info = 113.29
         i[1]?.info = 115.00;
         i[2]?.info = 112.49;
         i[3]?.info = 113.30;
+        
+        print("i[3] = ",i[3]?.info)
         
         for j in 0 ..< 4
         {
@@ -186,10 +188,11 @@ class ViewController: UIViewController {
                 h[4]?.info += (i[y]?.norinput)! * weights_4[y];
             }
             
-            
+        
             
             for x in 0 ..< 5
             {
+                //print(h[3]?.info,"exc bad ins")
                 
                 outh[x] = 1/( 1 + pow(M_E,(-1*(h[x]?.info)!)));
             }
@@ -270,9 +273,10 @@ class ViewController: UIViewController {
                 
                var result1 = outnoroutoneminusout * (outh[z])
                var result2 = (1 - outh[z]) * (weightshidden[z])
-               
+                var result3 = result1 * result2
+               var result4 = result3 * 0.2
                 
-                adweights[y] = weights[y] - (0.2 * (i[y]?.norinput)!);
+                adweights[y] = weights[y] - (result4 * (i[y]?.norinput)!);
             }
         }
         
