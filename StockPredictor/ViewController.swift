@@ -10,6 +10,10 @@ import UIKit
 import Foundation
 
 var closingprice = String()
+var openprice = String()
+var lowprice = String()
+var highprice = String()
+
 var targetresult = Double()
 
 var nortargetresult = Double()
@@ -53,19 +57,26 @@ class ViewController: UIViewController {
                         if let Daily = myJson["Time Series (Daily)"] as? NSDictionary
                         {
                             var date = String()
-                            date = "2017-11-08"
+                            date = "2018-02-01"
                             
-                            if let date = Daily[date] as? NSDictionary
+                        if let date = Daily[date] as? NSDictionary
                             {
                                 print("hiiii")
                                 
-                                if let cp = date["4. close"]
+        if let cp = date["4. close"], let cp2 = date["1. open"],let cp3 = date["2. high"], let cp4 = date["3. low"]
                                 {
                                     print (cp)
                                     closingprice = "\(cp)"
-                                    print (closingprice)
+                                    openprice = "\(cp2)"
+                                    highprice = "\(cp3)"
+                                     lowprice = "\(cp4)"
+                                    print ("closingprice = ",closingprice)
+                                    print ("openprice = ",openprice)
+                                    print ("highprice = ",highprice)
+                                    print ("lowprice = ",lowprice)
                                     self.backpropagate()
                                 }
+                               
                             }
                             
                         }
@@ -122,18 +133,26 @@ class ViewController: UIViewController {
     {
         
         targetresult = Double(closingprice)!
+        
+        targetresult = 167
+        
         nortargetresult = (((targetresult - 1)/targetresult) * 2) - 1
         
-        print(closingprice,"backpropagate1")
-        print("hiii1")
-         print("someInts is of type [Int] with \(i.count) items.")
-        print("targetresult =", targetresult)
+        //*print(closingprice,"backpropagate1")
+        //print("hiii1")
+        //print("someInts is of type [Int] with \(i.count) items.")
+        //print("targetresult =", targetresult)//
         
+        var closingpriceinfo = Double(closingprice)!
+        var openpriceinfo = Double(openprice)!
+        var highpriceinfo = Double(highprice)!
+        var lowpriceinfo = Double(lowprice)!
+
        
-        i[0] = Neuron(info: 113.29)
-        i[1] = Neuron(info: 115)
-        i[2] = Neuron(info: 112.49)
-        i[3] = Neuron(info: 113.30)
+        i[0] = Neuron(info: closingpriceinfo)
+        i[1] = Neuron(info: openpriceinfo)
+        i[2] = Neuron(info: highpriceinfo)
+        i[3] = Neuron(info: lowpriceinfo)
         
         h[0] = Neuron(info: 0)
         h[1] = Neuron(info: 0)
@@ -142,12 +161,12 @@ class ViewController: UIViewController {
         h[4] = Neuron(info: 0)
         
         print("i[0] = ", i[0]!.info)
-        i[0]!.info = 1195
+       
         print("i[0] = ", i[0]!.info)
         
         for j in 0 ..< 4
         {
-            i[j]?.norinput = ((((i[j]?.info)! - 1)/115.19) * 2) - 1;
+            i[j]?.norinput = ((((i[j]?.info)! - 1)/176) * 2) - 1;
         }
         
         for k in 0 ..< 5
@@ -168,6 +187,12 @@ class ViewController: UIViewController {
                 h[i]?.info = 0.0;
             }
             
+            
+            print("w1 = " , weights_0[0] , ", " , weights_0[1]  , ", " , weights_0[2] , ", " , weights_0[3]);
+            print("w1 = " , weights_1[0] , ", " , weights_1[1]  , ", " , weights_1[2] , ", " , weights_1[3]);
+            print("w1 = " , weights_2[0] , ", " , weights_2[1]  , ", " , weights_2[2] , ", " , weights_2[3]);
+            print("w1 = " , weights_3[0] , ", " , weights_3[1]  , ", " , weights_3[2] , ", " , weights_3[3]);
+            print("w1 = " , weights_4[0] , ", " , weights_4[1]  , ", " , weights_4[2] , ", " , weights_4[3]);
             
             errorflag = false;
             
@@ -226,6 +251,7 @@ class ViewController: UIViewController {
             {
                 epochnumber += 1
                 print("epoch = ", epochnumber)
+                print("error = ", error )
                 errorflag = true;
                 
                 adweightshidden = adjustingweightsh(weightshidden,outh: outh);
@@ -237,12 +263,7 @@ class ViewController: UIViewController {
                 
                 
                 
-                let interresult = output.info + 1
-                let interesult2 = interresult*116
-                let interesult3 = interesult2/2
-                let interesult4 = interesult3 + 1;
-                
-                print("Prediction1 = \(interesult4)");
+               
                 
                 weightshidden = adweightshidden;
                 weights_0 = adweights_0;
@@ -257,11 +278,14 @@ class ViewController: UIViewController {
                     h[i]?.info = 0.0;
                 }
                 neto = 0.0;
+               
                 
-                
-                
-                
-                
+            }
+            
+            else
+            {
+            
+              prediction()
                 
             }
             
@@ -269,6 +293,79 @@ class ViewController: UIViewController {
         
     }
     
+    
+    func prediction()
+    {
+        for i in 0 ..< 5
+        {
+            h[i]?.info = 0.0;
+        }
+        
+        
+        errorflag = false;
+        
+        
+        for y in 0 ..< 4
+        {
+            h[0]?.info += (i[y]?.norinput)! * weights_0[y];
+        }
+        
+        for y in 0 ..< 4
+        {
+            h[1]?.info += (i[y]?.norinput)! * weights_1[y];
+        }
+        
+        for y in 0 ..< 4
+        {
+            h[2]?.info += (i[y]?.norinput)! * weights_2[y];
+        }
+        
+        for y in 0 ..< 4
+        {
+            h[3]?.info += (i[y]?.norinput)! * weights_3[y];
+        }
+        
+        for y in 0 ..< 4
+        {
+            h[4]?.info += (i[y]?.norinput)! * weights_4[y];
+        }
+        
+        
+        
+        for x in 0 ..< 5
+        {
+            
+            
+            outh[x] = 1/( 1 + pow(M_E,(-1*(h[x]!.info))));
+        }
+        
+        
+        for  x in 0 ..< 5
+        {
+            neto += outh[x] * weightshidden[x];
+        }
+        
+        output.info = 1/( 1 + pow(M_E,(-1*neto)));
+        
+        
+        
+        
+        
+        
+        let interresult = output.info + 1
+        let interesult2 = interresult*167
+        let interesult3 = interesult2/2
+        let interesult4 = interesult3 + 1;
+        
+        print("w1 = " , weights_0[0] , ", " , weights_0[1]  , ", " , weights_0[2] , ", " , weights_0[3]);
+        print("w1 = " , weights_1[0] , ", " , weights_1[1]  , ", " , weights_1[2] , ", " , weights_1[3]);
+        print("w1 = " , weights_2[0] , ", " , weights_2[1]  , ", " , weights_2[2] , ", " , weights_2[3]);
+        print("w1 = " , weights_3[0] , ", " , weights_3[1]  , ", " , weights_3[2] , ", " , weights_3[3]);
+        print("w1 = " , weights_4[0] , ", " , weights_4[1]  , ", " , weights_4[2] , ", " , weights_4[3]);
+        
+        print("Prediction = \(interesult4)");
+        
+    }
     
     func adjustingweights(_ weights: [Double], outh: [Double]) -> [Double]
     {
