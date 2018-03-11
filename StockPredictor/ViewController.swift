@@ -14,9 +14,17 @@ var openprice = String()
 var lowprice = String()
 var highprice = String()
 
-var targetresult = Double()
+var closingtarget = String()
+var openpricepredict = String()
+var lowpricepredict = String()
+var highpricepredict = String()
 
+
+
+var targetresult = Double()
 var nortargetresult = Double()
+
+
 
 
 
@@ -37,8 +45,8 @@ class ViewController: UIViewController {
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        let url = URL(string: "http://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=AAPL&apikey=8685ZJTXGSCENYGZ")
+        var urlstr = "http://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=AAPL&apikey=8685ZJTXGSCENYGZ"
+        let url = URL(string: urlstr)
         
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
             if error != nil
@@ -56,19 +64,95 @@ class ViewController: UIViewController {
                         
                         if let Daily = myJson["Time Series (Daily)"] as? NSDictionary
                         {
-                            var date = String()
-                            date = "2018-02-01"
+                            var userCalendar = Calendar.current
                             
-                        if let date = Daily[date] as? NSDictionary
+                            var datetest: Date!
+                            var datetest1: Date!
+                            var datetest2: Date!
+                            
+                            
+                            
+                            datetest = userCalendar.date(byAdding: .day, value: 0, to: Date())
+                            datetest1 = userCalendar.date(byAdding: .day, value: -1, to: Date())
+                            
+                            var dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd"
+                            var stringdate: String = dateFormatter.string(from: datetest as Date)
+                            var stringdate1: String = dateFormatter.string(from: datetest1 as Date)
+                            print(stringdate)
+                            //print(stringdate1)
+                            print("before while",stringdate)
+                            
+                            while (Daily[stringdate] as? NSDictionary == nil)
+                            {
+                                print("daily1",Daily[stringdate] as? NSDictionary)
+                                print("in while loop1")
+                                
+                                datetest = userCalendar.date(byAdding: .day, value: -1, to: datetest)
+                                 stringdate = dateFormatter.string(from: datetest as Date)
+                                print(stringdate)
+                                
+                            }
+                            print("after while1",stringdate)
+                            
+                            stringdate = "2018-03-08"
+                            
+                            if let date = Daily[stringdate] as? NSDictionary
+                            {
+                                
+                                if let cp = date["4. close"], let cp2 = date["1. open"],let cp3 = date["2. high"], let cp4 = date["3. low"]
+                                {
+                                    print (cp)
+                                    closingtarget = "\(cp)"
+                                    openpricepredict = "\(cp2)"
+                                    highpricepredict  = "\(cp3)"
+                                    lowpricepredict = "\(cp4)"
+                                    print ("closingpricepredict = ",closingtarget)
+                                    print ("openpricepredict = ",openpricepredict)
+                                    print ("highpricepredict = ",highpricepredict)
+                                    print ("lowpricepredict = ",lowpricepredict)
+                                    
+                                }
+                            }
+                            
+                            datetest = userCalendar.date(byAdding: .day, value: -1, to: datetest)
+                            stringdate = dateFormatter.string(from: datetest as Date)
+                            
+                           stringdate = "2018-03-07"
+                            
+                            while (Daily[stringdate] as? NSDictionary == nil)
+                            {
+                                print("daily2",Daily[stringdate] as? NSDictionary)
+                                print("in while loop2")
+                                
+                                datetest = userCalendar.date(byAdding: .day, value: -1, to: datetest)
+                                stringdate = dateFormatter.string(from: datetest as Date)
+                                print(stringdate)
+                            }
+                            print("after while2",stringdate)
+                            
+                            /*datetest2 = userCalendar.date(byAdding: .day, value: 1, to: Date())
+                            var weekdayint = userCalendar.component(.weekday, from: datetest2)
+                            print(weekdayint)
+                            if(weekdayint == 7)
+                            {
+                                datetest2 = userCalendar.date(byAdding: .day, value: 3, to: Date())
+                                var weekdayint1 = userCalendar.component(.weekday, from: datetest2)
+                                print(weekdayint1)
+                                print(datetest2)
+                            }*/
+                            
+                        if let date = Daily[stringdate] as? NSDictionary
                             {
                                 print("hiiii")
+                                print(datetest)
                                 
         if let cp = date["4. close"], let cp2 = date["1. open"],let cp3 = date["2. high"], let cp4 = date["3. low"]
                                 {
                                     print (cp)
                                     closingprice = "\(cp)"
                                     openprice = "\(cp2)"
-                                    highprice = "\(cp3)"
+                                    highprice  = "\(cp3)"
                                      lowprice = "\(cp4)"
                                     print ("closingprice = ",closingprice)
                                     print ("openprice = ",openprice)
@@ -78,6 +162,24 @@ class ViewController: UIViewController {
                                 }
                                
                             }
+                            else
+                        {
+                            
+                            var userCalendar = Calendar.current
+                            var datetest: Date!
+                            
+                            
+                              datetest = userCalendar.date(byAdding: .day, value: -1, to: Date())
+                            
+                            
+                            var dateday = userCalendar.component(.day, from: datetest)
+                            var dateyear = userCalendar.component(.year, from: datetest)
+                            var datemonth = userCalendar.component(.month, from: datetest)
+                           print("nil")
+                           
+                            
+                        }
+                            
                             
                         }
                     }
@@ -132,9 +234,9 @@ class ViewController: UIViewController {
     func backpropagate()
     {
         
-        targetresult = Double(closingprice)!
+        targetresult = Double(closingtarget)!
         
-        targetresult = 167
+        //targetresult = 167
         
         nortargetresult = (((targetresult - 1)/targetresult) * 2) - 1
         
@@ -166,7 +268,7 @@ class ViewController: UIViewController {
         
         for j in 0 ..< 4
         {
-            i[j]?.norinput = ((((i[j]?.info)! - 1)/176) * 2) - 1;
+            i[j]?.norinput = ((((i[j]?.info)! - 1)/targetresult) * 2) - 1;
         }
         
         for k in 0 ..< 5
@@ -240,6 +342,11 @@ class ViewController: UIViewController {
             output.info = 1/( 1 + pow(M_E,(-1*neto)));
             error = ((nortargetresult-output.info) * (nortargetresult-output.info))/2;
             
+            let interresult = output.info + 1
+            let interesult2 = interresult*targetresult
+            let interesult3 = interesult2/2
+            let interesult4 = interesult3 + 1;
+             print("output.info = \(interesult4)");
             
             
             for i in 0 ..< 5
@@ -247,7 +354,7 @@ class ViewController: UIViewController {
                 h[i]?.info = 0.0;
             }
             
-            if(error >  0.00000001 )
+            if(error >  0.000000001 )
             {
                 epochnumber += 1
                 print("epoch = ", epochnumber)
@@ -296,6 +403,24 @@ class ViewController: UIViewController {
     
     func prediction()
     {
+     
+        print ("closingpricepredict = ",closingtarget)
+        print ("openpricepredict = ",openpricepredict)
+        print ("highpricepredict = ",highpricepredict)
+        print ("lowpricepredict = ",lowpricepredict)
+        
+        var closingpriceinfo = Double(closingtarget)!
+        var openpriceinfo = Double(openpricepredict)!
+        var highpriceinfo = Double(highpricepredict)!
+        var lowpriceinfo = Double(lowpricepredict)!
+        
+        
+        i[0] = Neuron(info: closingpriceinfo)
+        i[1] = Neuron(info: openpriceinfo)
+        i[2] = Neuron(info: highpriceinfo)
+        i[3] = Neuron(info: lowpriceinfo)
+        
+        
         for i in 0 ..< 5
         {
             h[i]?.info = 0.0;
@@ -353,7 +478,7 @@ class ViewController: UIViewController {
         
         
         let interresult = output.info + 1
-        let interesult2 = interresult*167
+        let interesult2 = interresult*targetresult
         let interesult3 = interesult2/2
         let interesult4 = interesult3 + 1;
         
