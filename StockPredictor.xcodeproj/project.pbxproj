@@ -11,6 +11,7 @@
 		211E5C491FB39F3400493F45 /* WatchListSymbols.plist in Resources */ = {isa = PBXBuildFile; fileRef = 211E5C481FB39F3400493F45 /* WatchListSymbols.plist */; };
 		211E5C4B1FB39F5200493F45 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 211E5C4A1FB39F5200493F45 /* Info.plist */; };
 		213FF8F11FB3880100152BC0 /* constituents.csv in Resources */ = {isa = PBXBuildFile; fileRef = 213FF8F01FB3880100152BC0 /* constituents.csv */; };
+		215A2903205693E00048F5B7 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 215A2902205693E00048F5B7 /* Default-568h@2x.png */; };
 		21C54C381FAE23310026E3E1 /* NeuralNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C54C371FAE23310026E3E1 /* NeuralNet.swift */; };
 		21C54C3A1FAE23C30026E3E1 /* Neuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C54C391FAE23C30026E3E1 /* Neuron.swift */; };
 		21F607941D8BCE2700BF72B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F607931D8BCE2700BF72B8 /* AppDelegate.swift */; };
@@ -44,6 +45,7 @@
 		211E5C481FB39F3400493F45 /* WatchListSymbols.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = WatchListSymbols.plist; path = "../../../Downloads/STCK-master-3/WatchListSymbols.plist"; sourceTree = "<group>"; };
 		211E5C4A1FB39F5200493F45 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../../../Downloads/STCK-master-3/STCK/Info.plist"; sourceTree = "<group>"; };
 		213FF8F01FB3880100152BC0 /* constituents.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = constituents.csv; path = "../../../Downloads/STCK-master-3/STCK/constituents.csv"; sourceTree = "<group>"; };
+		215A2902205693E00048F5B7 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		21C54C371FAE23310026E3E1 /* NeuralNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuralNet.swift; sourceTree = "<group>"; };
 		21C54C391FAE23C30026E3E1 /* Neuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Neuron.swift; sourceTree = "<group>"; };
 		21F607901D8BCE2700BF72B8 /* StockPredictor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockPredictor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,10 +101,12 @@
 		21F607871D8BCE2600BF72B8 = {
 			isa = PBXGroup;
 			children = (
+				215A2902205693E00048F5B7 /* Default-568h@2x.png */,
 				21F607921D8BCE2700BF72B8 /* StockPredictor */,
 				21F607B21D8BCE2700BF72B8 /* StockPredictorUITests */,
 				21F607911D8BCE2700BF72B8 /* Products */,
 				213FF8F01FB3880100152BC0 /* constituents.csv */,
+				21F6079F1D8BCE2700BF72B8 /* Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,7 +131,6 @@
 				21F6079A1D8BCE2700BF72B8 /* Assets.xcassets */,
 				211E5C1E1FB38A5B00493F45 /* Assets.xcassets */,
 				21F6079C1D8BCE2700BF72B8 /* LaunchScreen.storyboard */,
-				21F6079F1D8BCE2700BF72B8 /* Info.plist */,
 				211E5C4C1FB39F5F00493F45 /* plists */,
 				21F607A71D8BCE2700BF72B8 /* StockPredictorTests */,
 			);
@@ -268,6 +271,7 @@
 				213FF8F11FB3880100152BC0 /* constituents.csv in Resources */,
 				211E5C491FB39F3400493F45 /* WatchListSymbols.plist in Resources */,
 				21F6079B1D8BCE2700BF72B8 /* Assets.xcassets in Resources */,
+				215A2903205693E00048F5B7 /* Default-568h@2x.png in Resources */,
 				21F607991D8BCE2700BF72B8 /* Main.storyboard in Resources */,
 				211E5C1F1FB38A5B00493F45 /* Assets.xcassets in Resources */,
 			);
@@ -450,7 +454,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = T5BCCGNH77;
-				INFOPLIST_FILE = StockPredictor/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../Downloads/STCK-master-3/STCK/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prayosa.StockPredictor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -463,7 +467,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = T5BCCGNH77;
-				INFOPLIST_FILE = StockPredictor/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/../../../Downloads/STCK-master-3/STCK/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prayosa.StockPredictor;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -47,8 +47,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         var urlstr = "http://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=AAPL&apikey=8685ZJTXGSCENYGZ"
         let url = URL(string: urlstr)
+         var request = URLRequest(url: url!)
         
         let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            
+            request.setValue("application/xml;charset=utf-8", forHTTPHeaderField: "Content-Type")
             if error != nil
             {
                 print ("ERROR")
@@ -59,7 +62,9 @@ class ViewController: UIViewController {
                 {
                     do
                     {
-                        //Array
+
+                        
+                        
                         let myJson = try JSONSerialization.jsonObject(with: content, options: JSONSerialization.ReadingOptions.mutableContainers) as AnyObject
                         
                         if let Daily = myJson["Time Series (Daily)"] as? NSDictionary
@@ -76,12 +81,19 @@ class ViewController: UIViewController {
                             datetest1 = userCalendar.date(byAdding: .day, value: -1, to: Date())
                             
                             var dateFormatter = DateFormatter()
+                            var dateFormatter1 = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd"
+        /*for time*/         dateFormatter1.timeZone = TimeZone(abbreviation: "EST")
+         /*for time*/         dateFormatter1.dateFormat = "HH:mm:00"
+         /*for time*/        var stringtime: String = dateFormatter1.string(from: datetest as Date)
+         /*for time*/        print(stringtime)
+                            
                             var stringdate: String = dateFormatter.string(from: datetest as Date)
                             var stringdate1: String = dateFormatter.string(from: datetest1 as Date)
                             print(stringdate)
                             //print(stringdate1)
-                            print("before while",stringdate)
+        
+         /* current date*/    print("before while",stringdate,datetest)
                             
                             while (Daily[stringdate] as? NSDictionary == nil)
                             {
@@ -95,7 +107,7 @@ class ViewController: UIViewController {
                             }
                             print("after while1",stringdate)
                             
-                            stringdate = "2018-03-08"
+                           
                             
                             if let date = Daily[stringdate] as? NSDictionary
                             {
@@ -118,7 +130,7 @@ class ViewController: UIViewController {
                             datetest = userCalendar.date(byAdding: .day, value: -1, to: datetest)
                             stringdate = dateFormatter.string(from: datetest as Date)
                             
-                           stringdate = "2018-03-07"
+                           
                             
                             while (Daily[stringdate] as? NSDictionary == nil)
                             {
@@ -131,16 +143,7 @@ class ViewController: UIViewController {
                             }
                             print("after while2",stringdate)
                             
-                            /*datetest2 = userCalendar.date(byAdding: .day, value: 1, to: Date())
-                            var weekdayint = userCalendar.component(.weekday, from: datetest2)
-                            print(weekdayint)
-                            if(weekdayint == 7)
-                            {
-                                datetest2 = userCalendar.date(byAdding: .day, value: 3, to: Date())
-                                var weekdayint1 = userCalendar.component(.weekday, from: datetest2)
-                                print(weekdayint1)
-                                print(datetest2)
-                            }*/
+                           
                             
                         if let date = Daily[stringdate] as? NSDictionary
                             {
@@ -490,6 +493,116 @@ class ViewController: UIViewController {
         
         print("Prediction = \(interesult4)");
         
+        
+        var holidayarray = ["2018-03-30","2018-05-28","2018-07-04","2018-09-03","2018-11-22","2018-12-25"
+,"2019-01-01","2019-01-21","2019-02-18","2019-04-19","2019-05-27","2019-07-04","2019-09-02","2019-11-28","2019-12-25"
+,"2020-01-01","2020-01-20","2020-02-17","2020-04-10","2020-05-25","2020-07-03","2020-09-07","2020-11-26","2020-12-25"
+,"2021-01-01","2021-01-18","2021-02-15","2021-04-02","2021-05-31","2021-07-05","2021-09-06","2021-11-25","2021-12-24"
+,"2022-01-01","2022-01-17","2022-02-21","2022-04-15","2022-05-30","2022-07-04","2022-09-05","2022-11-24","2022-12-26"
+,"2023-01-02","2023-01-16","2023-02-20","2023-04-07","2023-05-29","2023-07-04","2023-09-04","2023-11-23","2023-12-25"
+,"2024-01-01","2024-01-15","2024-02-19","2024-03-29","2024-05-27","2024-07-04","2024-09-02","2024-11-28","2024-12-25"
+,"2025-01-01","2025-01-20","2025-02-17","2025-04-18","2025-05-26","2025-07-04","2025-09-01","2025-11-27","2025-12-25"         ]
+        
+         var datetest: Date!
+       // var datefortest: Date!
+        var userCalendar = Calendar.current
+        
+        datetest = userCalendar.date(byAdding: .day, value: 0, to: Date())
+        datetest = userCalendar.date(byAdding: .day, value: 0, to: datetest)
+        print("dateforpuretest = ",datetest)
+        datetest = userCalendar.date(byAdding: .day, value: 1, to: datetest)
+        
+        //datefortest = userCalendar.date(byAdding: .day, value: -2, to: Date())
+         var weekdayint = userCalendar.component(.weekday, from: datetest)
+         print("weekdayint0 =",weekdayint)
+        
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        var stringdate: String = dateFormatter.string(from: datetest as Date)
+        print("stringdate0 = ",stringdate)
+        var strd = true;
+        
+      // var stringdate1: String = dateFormatter.string(from: datefortest as Date)
+        //print("stringdate1 = ",stringdate)
+       // datetest = userCalendar.date(byAdding: .day, value: 1, to: datetest)
+        //datefortest = userCalendar.date(byAdding: .day, value: 1, to: datetest)
+        
+        while strd == true
+        {
+            for  x in 0 ..< 67
+            {
+                if(stringdate == holidayarray[x] )
+                {
+                    strd = false
+                    datetest = userCalendar.date(byAdding: .day, value: 1, to: datetest)
+                    print("holiday")
+                }
+            }
+            strd = false
+            //not sure look at code again
+        }
+        
+       weekdayint = userCalendar.component(.weekday, from: datetest)
+        
+        print("weekdayint1 =",weekdayint)
+         if(weekdayint == 7)
+         {
+         datetest = userCalendar.date(byAdding: .day, value: 2, to: datetest)
+             stringdate = dateFormatter.string(from: datetest as Date)
+/*check for holiday*/while strd == true
+                {
+                for  x in 0 ..< 67
+                {
+                    if(stringdate == holidayarray[x] )
+/*check for holiday*/ {
+                        strd = false
+                        datetest = userCalendar.date(byAdding: .day, value: 1, to: datetest)
+ /*check for holiday*/    print("holiday")
+                    }
+                }
+                strd = false
+                }
+/*check for holiday*/
+         stringdate = dateFormatter.string(from: datetest as Date) //final stringdate
+            print(stringdate)
+         var weekdayint1 = userCalendar.component(.weekday, from: datetest)
+         print(weekdayint1)
+         print(datetest)
+         }
+        else if(weekdayint == 1)
+         {
+            datetest = userCalendar.date(byAdding: .day, value: 1, to: datetest)
+            stringdate = dateFormatter.string(from: datetest as Date)
+/*check for holiday*/while strd == true
+                {
+                for  x in 0 ..< 67
+                    {
+                    if(stringdate == holidayarray[x] )
+/*check for holiday*/{
+                        strd = false
+                        datetest = userCalendar.date(byAdding: .day, value: 1, to: datetest)
+/*check for holiday*/ print("holiday")
+                    }
+                    }
+                strd = false
+                //not sure look at code again
+                }
+ /*check for holiday*/
+            
+            stringdate = dateFormatter.string(from: datetest as Date) //final stringdate
+            print(stringdate)
+            var weekdayint1 = userCalendar.component(.weekday, from: datetest)
+            print(weekdayint1)
+            print(datetest)
+        }
+         else
+         {
+            stringdate = dateFormatter.string(from: datetest as Date) //final stringdate
+            print(stringdate)
+        print(datetest)
+        }
+        
     }
     
     func adjustingweights(_ weights: [Double], outh: [Double]) -> [Double]
@@ -506,7 +619,7 @@ class ViewController: UIViewController {
                var result1 = outnoroutoneminusout * (outh[z])
                var result2 = (1 - outh[z]) * (weightshidden[z])
                 var result3 = result1 * result2
-               var result4 = result3 * 0.2
+               var result4 = result3 * 8
                 
                 adweights[y] = weights[y] - (result4 * (i[y]?.norinput)!);
             }
@@ -523,7 +636,7 @@ class ViewController: UIViewController {
         var adweights = [Double]( repeating: 0, count: weights.count)
         for x in 0 ..< weights.count
         {
-            adweights[x] = weights[x] - ((0.2) * (output.info-nortargetresult) * (output.info) * (1 - output.info) * (outh[x]));
+            adweights[x] = weights[x] - ((8) * (output.info-nortargetresult) * (output.info) * (1 - output.info) * (outh[x]));
         }
         return adweights;
         
